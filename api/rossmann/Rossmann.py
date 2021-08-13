@@ -131,16 +131,16 @@ class Rossmann(object):
         df5['week_of_year'] = df5['week_of_year'].astype(np.int64)
 
         # competition_distance
-        df5['competition_distance'] = self.competition_distance_scaler.fit_transform(df5[['competition_distance']].values)
+        df5['competition_distance'] = self.competition_distance_scaler.transform(df5[['competition_distance']].values)
 
         # competition_time_month
-        df5['competition_time_month'] = self.competition_time_month_scaler.fit_transform(df5[['competition_time_month']].values)
+        df5['competition_time_month'] = self.competition_time_month_scaler.transform(df5[['competition_time_month']].values)
 
         # promo_time_week
-        df5['promo_time_week'] = self.promo_time_week_scaler.fit_transform(df5[['promo_time_week']].values)
+        df5['promo_time_week'] = self.promo_time_week_scaler.transform(df5[['promo_time_week']].values)
 
         # year
-        df5['year'] = self.year_scaler.fit_transform(df5[['year']].values)
+        df5['year'] = self.year_scaler.transform(df5[['year']].values)
 
 
         # 5.3.1. Enconding
@@ -148,7 +148,7 @@ class Rossmann(object):
         df5 = pd.get_dummies(data=df5,prefix='state_holiday',columns=['state_holiday'])
 
         # store_type
-        df5['store_type'] = self.store_type_scaler.fit_transform(df5['store_type'])
+        df5['store_type'] = self.store_type_scaler.transform(df5['store_type'])
 
         # assortment
         assortment_dict = {'basic':1, 'extra':2, 'extended':3} 
@@ -162,7 +162,7 @@ class Rossmann(object):
 
 
         #day
-        max_days_month = df5.groupby('month')['day'].max().to_dict()
+        max_days_month = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
         df5['max_days_month'] = df5['month'].map(max_days_month)
 
         x = lambda x: np.sin(x['day'] * (2 * np.pi / x['max_days_month']))
@@ -207,5 +207,3 @@ class Rossmann(object):
         
         
         return df_response_with_MAE.to_json(orient='records', date_format = 'iso')
-        
-        

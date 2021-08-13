@@ -18,6 +18,7 @@ decorator==4.4.2
 defusedxml==0.7.1
 entrypoints==0.3
 Flask==2.0.1
+graphviz==0.17
 idna==2.10
 importlib-metadata==3.10.0
 inflection==0.5.1
@@ -34,6 +35,7 @@ jupyter-client==6.1.12
 jupyter-contrib-core==0.3.3
 jupyter-core==4.7.1
 jupyter-highlight-selected-word==0.2.0
+jupyter-http-over-ws==0.0.8
 jupyter-latex-envs==1.4.6
 jupyter-nbextensions-configurator==0.4.1
 jupyter-packaging==0.7.12
@@ -68,6 +70,7 @@ pyparsing==2.4.7
 pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2021.1
+pywin32==300
 pywinpty==0.5.7
 PyYAML==5.4.1
 pyzmq==22.0.3
