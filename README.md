@@ -38,7 +38,8 @@ By plotting the moving average of the last 4 weeks over the entire period availa
 ![h1](https://user-images.githubusercontent.com/64495168/129499183-ac3e5744-0800-49e4-92ef-4ee691a69e99.png)
 
 It is also noted that there seems to be a tendency to accentuate the difference of stores with extra assortment as time goes on.
-
+<br>
+<br>
 
 10. Stores should sell more after the 10th day of each month: **false**
 
@@ -47,7 +48,8 @@ After analyzing the composition of the 4 graphs related to this hypothesis, it i
 ![h10](https://user-images.githubusercontent.com/64495168/129499532-abffc7db-1f3f-455a-974f-8d2ea11dbefc.png)
 
 The confusion matrix reveals a tendency for the number of the day to be inversely correlated with the sales result.
-
+<br>
+<br>
 
 13. Stores that open on Sundays should sell more: **true**
 
