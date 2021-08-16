@@ -4,7 +4,7 @@
 # Rossmann stores - 6 weeks sales forecast
 
 
-This project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales)
+This project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales).
 
 ## Business scenario
 The sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe.
@@ -33,7 +33,7 @@ With the feature diagram above, several hypotheses were generated; the ones that
 4. Stores where products cost less for longer (active promotions) should sell more
 5. Stores with more promotion days should sell more
 6. Stores with more extended promotions should sell more
-7 Stores open during Christmas holiday should sell more
+7. Stores open during Christmas holiday should sell more
 8. Stores should sell more over the years
 9. Stores should sell more in the second half of the year
 10. Stores should sell more after the 10th day of each month
@@ -41,7 +41,7 @@ With the feature diagram above, several hypotheses were generated; the ones that
 12. Stores should sell less during school holidays
 13. Stores that open on Sundays should sell more
 
-The discussion of each hypothesis to validate or refute it is in the notebook.
+The discussion of each hypothesis to validate or refute it is found in the notebook file.
 Below are the summary of the analysis of hypotheses 1, 10 and 13:
 
 ### 1. Stores with a larger assortment should sell more: **true**
