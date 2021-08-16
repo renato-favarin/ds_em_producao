@@ -29,7 +29,9 @@ With the feature diagram above, several hypotheses were generated; the ones that
 13. Stores that open on Sundays should sell more
 
 The discussion of each hypothesis to validate or refute it is in the notebook.
-Below are the summary of the analysis of hypotheses 1, 10 and 13.
+Below are the summary of the analysis of hypotheses 1, 10 and 13:
+<br>
+<br>
 
 1. Stores with a larger assortment should sell more: **true**
 
@@ -59,6 +61,8 @@ After identifying the different stores that open on Sundays (which most stores r
 
 Perhaps this analysis is an insight and investigation is recommended if such superior performance is due to the location of the store or if the fact that they are open on Sundays makes them gain extra confidence in availability, which makes customers look for such stores regardless of the day of the week.
 It may be for yet another factor to be identified.
+<br>
+<br>
 
 After EDA, data preparation was performed, where reascaling and encondings were applied.
 As a highlight, there is the transformation of cyclical data (such as day and week) using the sine and cosine functions to leave such variables correctly spaced according to the calendar, for example approximating the end and beginning of the month (image below) or the end and the beginning of the year.
