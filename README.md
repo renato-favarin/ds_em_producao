@@ -1,6 +1,6 @@
 This project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales)
 
-Here is the business scenario: the sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe 
+Here is the **business scenario**: the sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe 
 
 The resolution of the challenge was carried out following the CRISP (Cross-industry standard process for data mining) methodology, which is a cyclical approach that streamlines the delivery of value.
 
@@ -69,8 +69,13 @@ As a highlight, there is the transformation of cyclical data (such as day and we
  
 ![sin_cos](https://user-images.githubusercontent.com/64495168/129500567-88f18fe1-d361-4c8d-b070-229b10848abd.png)
 
+<br>
+<br>
+
 The next step was to identify the most relevant features for training machine learning models.
 For this, in addition to the knowledge acquired during EDA, the Python implementations of the Boruta R package (https://github.com/scikit-learn-contrib/boruta_py) was used.
+<br>
+<br>
 
 Four different models (linear regression, regularized linear regression - lasso, random forest and XGBoost ) were evaluated with the cross-validation technique schematically represented below:
 
@@ -81,3 +86,6 @@ The results in terms of Mean Absolute Error (MAE), Mean absolute percentage erro
 ![performance_models](https://user-images.githubusercontent.com/64495168/129501252-1b1e4e47-d7e1-41a1-b307-15efd9495c06.png)
 
 Although the random forest model was the best, the model chosen to go ahead with the tuning of the hyperparameters was XGBoost because, in addition to not having such a significant difference in performance, it is considerably **lighter** to operate in production, an extremely important requirement for this project.
+
+<br>
+<br>
