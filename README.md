@@ -71,7 +71,7 @@ It may be for yet another factor to be identified.
 
 ## Data preparation (standardization and feature selection)
 
-After EDA, data preparation was performed, where rescaling and encondings were applied.
+After EDA, data preparation was performed, where rescaling and encondings were applied. <br>
 As a highlight, there is the transformation of cyclical data (such as day and week) using the sine and cosine functions to leave such variables correctly spaced according to the calendar, for example approximating the end and beginning of the month (image below) or the end and the beginning of the year.
  
 ![sin_cos](https://user-images.githubusercontent.com/64495168/129500567-88f18fe1-d361-4c8d-b070-229b10848abd.png)
@@ -85,12 +85,71 @@ Four different models (linear regression, regularized linear regression - lasso,
 
 ![ts_cross_validation](https://user-images.githubusercontent.com/64495168/129501073-58f20c0c-543d-4d0f-899b-10da4eac3011.png)
 
-It started with a reduced training set and the model training was performed but before separating the last 6-week slice for testing; then, the performance of this model was calculated. And then new iterations were performed, each time increasing the training dataset but before always separating the last 6 weeks for the test.
+It started with a reduced training set and the model training was performed but before separating the last 6-week slice for testing; then, the performance of this model was calculated. And then new iterations were performed, each time increasing the training dataset but before always separating the last 6 weeks for the test. <br>
 The cross-validation performance was the average of each of these iterations.
 
 The results in terms of Mean Absolute Error (MAE), Mean absolute percentage error (MAPE) and Root Mean Square Error (RMSE) were:
 
-![performance_models](https://user-images.githubusercontent.com/64495168/129501252-1b1e4e47-d7e1-41a1-b307-15efd9495c06.png)
+|Model|MAE|MAPE|RMSE|
+|-----------------------------|------------------|-------------|------------------|
+|Random forest regressor      |853.71 +/- 257.13 |0.12 +/- 0.03|1297.01 +/- 400.11|
+|XGBoost regressor            |1068.62 +/- 165.13|0.15 +/- 0.02|1531.94 +/- 235.94|
+|Linear regression            |2081.69 +/- 295.28|0.3 +/- 0.02 |2952.57 +/- 468.48|
+|Regularized linear regression|2116.43 +/- 341.25|0.29 +/- 0.01|3057.75 +/- 503.93|
+	
+Although the random forest model was the best, the model chosen to go ahead with the tuning of the hyperparameters was XGBoost. The reason for this is that it is a much lighter model to operate in production and does not have a significant difference in performance. The operability in production is an extremely important requirement in this project.
 
-Although the random forest model was the best, the model chosen to go ahead with the tuning of the hyperparameters was XGBoost because, in addition to not having such a significant difference in performance, it is considerably **lighter** to operate in production, an extremely important requirement for this project.
+## Hyperparameter tuning
+Using the random search precedure,  with different values for the parameters "n_estimators", "eta", "max_depth", "subsample", "colsample_bytree" and "min_child_weight", 25 different iterations of XGBoost were performed, all evaluated using cross-validation. 
+The values of MAE, MAPE and RMSE are detailed in the notebook for all the iterations. <br><br>
+The best model considering not only the performance but also its size  
+The performance of the chosen model, considering performance and size(keeping in mind the operability in production), was:
+
+|Model|MAE|MAPE|RMSE|
+|----------------|----------------|-------------|-----------------|
+XGBoost regressor|972.0 +/- 166.53|0.13 +/- 0.02|1409.8 +/- 247.92|
+
+And then the model was trained with all the training data: 
+
+```python
+model_xgb_tuned = xgb.XGBRegressor(objective = 'reg:squarederror',
+                                   n_estimators = 500,
+                                   eta = 0.03,
+                                   max_depth = 9,
+                                   subsample = 0.7,
+                                   colsample_bytree = 0.9,
+                                   min_child_weight = 15).fit(x_train,y_train)
+```
+
+The performance of the test data was:
+
+|Model|MAE|MAPE|RMSE|
+|----------------|------|----|-------|
+XGBoost regressor|803.56|0.12|1176.21|
+
+## Business performance
+
+Finally, with the model trained, it's time to translate model performance into business performance.
+Considering the MAE obtained in the forecast for each store, during the test period, the best and worst sales scenarios for each store are projected.
+
+All details of this reasoning are available on the notebook.
+Below, the expected business performance of the first 5 stores:
+
+|store|predictions|MAE|MAPE|days|worst_scenario|best_scenario|
+|-|---------|------|----|--|---------|---------|
+|1|169305.70|308.78|0.07|37|157881.01|180730.40|
+|2|182122.09|395.43|0.08|37|167491.11|196753.09|
+|3|258817.89|538.91|0.08|37|238878.23|278757.55|
+|4|338596.25|944.09|0.09|37|303664.96|373527.54|
+|5|174173.37|388.33|0.09|37|159805.20|188541.55|
+
+The overall performance of the model can be represented in the graphs below. <br>
+error = sales - predictions
+error_rate = predictions/'sales'
+<br>
+
+![performance](https://user-images.githubusercontent.com/64495168/129820205-91e08bcc-22c6-436f-9333-13ba52eed373.png)
+
+
+
 
