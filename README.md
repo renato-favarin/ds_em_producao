@@ -16,8 +16,9 @@ The resolution of the challenge was carried out following the CRISP (Cross-indus
 
 ## Data collection and understanding
 
-The first step was to collect (from kaggle) and understand the data; soon after, the cleaning of the database and treatment of missing values took place.
-
+The first step was to collect (from kaggle) and understand the data; soon after, the cleaning of the database and treatment of missing values took place. <br>
+There are 1017209 sales records for 1115 different stores, containing different attributes such as: "store_type", "customers", "assortment", "school_holiday", "open", "promo2", among others. The explanation of each of the attributes is available on the notebook. <br>
+To complete the data understanding step, features that will not be available at the time of the forecast were removed, such as the number of customers, which will only be known on the day of sales and, therefore, it would be impractical to train the model with such variable.
 
 ## Exploratory data analysis guided by a mind map of hypotheses 
 
@@ -81,7 +82,7 @@ For this, in addition to the knowledge acquired during EDA, the Python implement
 
 ## Machine learning modeling
 
-Four different models (linear regression, regularized linear regression - lasso, random forest and XGBoost ) were evaluated using the cross-validation on a rolling basis, schematically represented below:
+Four different models (linear regression, regularized linear regression - lasso, random forest and XGBoost ) were evaluated using the cross-validation on a rolling basis, schematically represented below.
 
 ![ts_cross_validation](https://user-images.githubusercontent.com/64495168/129501073-58f20c0c-543d-4d0f-899b-10da4eac3011.png)
 
@@ -109,7 +110,7 @@ The performance of the chosen model, considering performance and size(keeping in
 |----------------|----------------|-------------|-----------------|
 XGBoost regressor|972.0 +/- 166.53|0.13 +/- 0.02|1409.8 +/- 247.92|
 
-And then the model was trained with all the training data: 
+And then the model was trained with the entire training data: 
 
 ```python
 model_xgb_tuned = xgb.XGBRegressor(objective = 'reg:squarederror',
@@ -132,7 +133,6 @@ XGBoost regressor|803.56|0.12|1176.21|
 Finally, with the model trained, it's time to translate model performance into business performance.
 Considering the MAE obtained in the forecast for each store, during the test period, the best and worst sales scenarios for each store are projected.
 
-All details of this reasoning are available on the notebook.
 Below, the expected business performance of the first 5 stores:
 
 |store|predictions|MAE|MAPE|days|worst_scenario|best_scenario|
@@ -143,12 +143,37 @@ Below, the expected business performance of the first 5 stores:
 |4|338596.25|944.09|0.09|37|303664.96|373527.54|
 |5|174173.37|388.33|0.09|37|159805.20|188541.55|
 
-The overall performance of the model can be represented in the graphs below. <br>
-error = sales - predictions
-error_rate = predictions/'sales'
+The overall performance of the model can be represented in the graphs below, where: <br>
+<br>
+error_rate = predictions/sales <br>
+error = sales - predictions <br>
+
 <br>
 
 ![performance](https://user-images.githubusercontent.com/64495168/129820205-91e08bcc-22c6-436f-9333-13ba52eed373.png)
+
+Overall, the model performed well.
+But it is always possible to improve it. For this, it may be considered to train stores individually or even a smaller group of them, for example. Another possibility is to explore other machine learning models.
+However, the deadline for delivery of forecasts and the performance of the model already in production must be taken into account. Something very heavy or time-consuming is also impractical, even if it performs exceptionally well. <br>
+It is a trade-off that must be closely aligned with the company's management. <br>
+Further details on business performance are available on the notebook.
+
+## Model in production
+
+The model was finally put into production and operated via a Telegram chatbot. For this, in addition to the final trained model, a class in python was created with the entire data processing pipeline, an API handler and an application to manage the messages. All files were hosted on Heroku (https://www.heroku.com/); the production data was also stored in its cloud. <br>
+
+The following scheme represents all these files.
+
+![app](https://user-images.githubusercontent.com/64495168/129825475-1d74099c-8180-4202-a427-a153ea28a611.png)
+
+
+A demonstration of the app: <br>
+
+![rossmann](https://user-images.githubusercontent.com/64495168/129827366-922ee3ee-f9e7-422a-8375-954cc867ab04.gif)
+
+chatbot id: @rossmann_rnf_bot
+
+
 
 
 
