@@ -3,8 +3,7 @@
 
 # Rossmann stores - 6 weeks sales forecast
 
-Disclaimer: this project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales).<br>
-It is a fictitious project but with all the steps of a real project.
+**Disclaimer**: this project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales). It is a fictitious project but with all the steps of a real project.
 
 ## Business scenario
 The sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe.
@@ -12,7 +11,7 @@ The sales director of the Rossmann stores wants to estimate the sales forecast f
 ## Solution methodology
 The resolution of the challenge was carried out following the CRISP (CRoss-Industry Standard Process for data mining) methodology, which is a cyclical approach that streamlines the delivery of value.
 
-![crisp_cycle](https://user-images.githubusercontent.com/64495168/129498233-5b3c6cb0-39ce-4187-a96a-c298c7edc95b.png)
+![crisp_cycle](/img/crisp_cycle.png)
 
 ## Data collection and understanding
 
@@ -24,7 +23,7 @@ To complete the data understanding step, features that will not be available at 
 
 The next step was to perform exploratory data analysis (EDA). But right before that, a mind map of hypotheses was made in order to guide the EDA, to generate insights and to understand a little more about the database and the most important attributes. 
 
-![MindMapHypothesis](https://user-images.githubusercontent.com/64495168/129498190-589e0307-4c29-4dd6-b966-52e2b8f8b874.png)
+![MindMapHypothesis](/img/MindMapHypothesis.png)
 
 With the feature diagram above, several hypotheses were generated; the ones that were judged to be most relevant were selected (listed below) and then the EDA actually started.
 
@@ -49,7 +48,7 @@ Below are the summary of the analysis of hypotheses 1, 10 and 13:
 
 By plotting the moving average of the last 4 weeks over the entire period available in the database, it is noted the better performance, in sales, of stores that have 'extra' assortment, compared to the 'extended', which in turn is better than the 'basic'.
 
-![h1](https://user-images.githubusercontent.com/64495168/129499183-ac3e5744-0800-49e4-92ef-4ee691a69e99.png)
+![h1](/img/h1.png)
 
 It is also noted that there seems to be a tendency to accentuate the difference of stores with extra assortment as time goes on.
 
@@ -57,7 +56,7 @@ It is also noted that there seems to be a tendency to accentuate the difference 
 
 After analyzing the composition of the 4 graphs related to this hypothesis, it is noted that before the 10th, on average, stores sell more. 
 
-![h10](https://user-images.githubusercontent.com/64495168/129499532-abffc7db-1f3f-455a-974f-8d2ea11dbefc.png)
+![h10](/img/h10.png)
 
 The confusion matrix reveals a slight trend for the number of the day to be inversely correlated with the sales result.
 
@@ -65,7 +64,7 @@ The confusion matrix reveals a slight trend for the number of the day to be inve
 
 After identifying the different stores that open on Sundays (which most stores remain closed), the average sales performance between these stores that never open on Sundays vs stores that always open on Sundays was compared; to be a fair comparison, the Sunday sales of these last stores were excluded, so only the performance of Monday to Saturday sales was compared.
 
-![h13](https://user-images.githubusercontent.com/64495168/129499835-85cefe88-7648-45c1-94b7-593717869ffa.png)
+![h13](/img/h13.png)
 
 Perhaps this analysis is an insight and investigation of such superior performance is recommended. <br>
 One possible reason could be the store's location (which makes sense to open it on Sundays); another reason may be that such stores that do not close on any day of the week result in increased confidence by customers in "finding the doors open" and therefore looking for such stores regardless of the day of the week. <br>
@@ -76,7 +75,7 @@ Of course, it could still be another factor or combination of them.
 After EDA, data preparation was performed, where rescaling and encondings were applied. <br>
 As a highlight, there is the transformation of cyclical data (such as day and week) using the sine and cosine functions to leave such variables correctly spaced according to the calendar, for example approximating the end and beginning of the month (image below) or the end and the beginning of the year.
  
-![sin_cos](https://user-images.githubusercontent.com/64495168/129500567-88f18fe1-d361-4c8d-b070-229b10848abd.png)
+![sin_cos](/img/sin_cos.png)
 
 The next step was to identify the most relevant features for training machine learning models.
 For this, in addition to the knowledge acquired during EDA, the Python implementations of the Boruta R package (https://github.com/scikit-learn-contrib/boruta_py) was used. <br>
@@ -86,7 +85,7 @@ The features chosen by Boruta are described in the notebook.
 
 Four different models (linear regression, regularized linear regression - lasso, random forest and XGBoost ) were evaluated using the cross-validation on a rolling basis, schematically represented below.
 
-![ts_cross_validation](https://user-images.githubusercontent.com/64495168/129501073-58f20c0c-543d-4d0f-899b-10da4eac3011.png)
+![ts_cross_validation](/img/ts_cross_validation.png)
 
 It started with a reduced portion of the training database, whose last 6 weeks were separated for validation; then, the model was trained and its performance was calculated. <br>
 New iterations were performed, each time increasing the training dataset and always separating the last 6 weeks for the test. <br>
@@ -152,10 +151,10 @@ error = sales - predictions <br>
 
 <br>
 
-![performance](https://user-images.githubusercontent.com/64495168/129820205-91e08bcc-22c6-436f-9333-13ba52eed373.png)
+![performance](/img/performance.png)
 
-Overall, the model performed well.
-But it is always possible to improve it. For this, it may be considered to train stores individually or even a smaller group of them, for example. Another possibility is to explore other machine learning models.
+Overall, the model performed well. <br>
+But it is always possible to improve it; following the CRISP methodology, if a new round is needed, it may be considered to train stores individually or even a smaller group of them, for example. Another possibility is to explore other machine learning models.  <br>
 However, the deadline for delivery of forecasts and the performance of the model already in production must be taken into account. Something very heavy or time-consuming is also impractical, even if it performs exceptionally well. <br>
 It is a trade-off that must be closely aligned with the company's management. <br>
 Further details on business performance are available on the notebook.
@@ -166,14 +165,13 @@ The model was finally put into production and operated via a Telegram chatbot. F
 
 The following scheme represents all these files.
 
-![app](https://user-images.githubusercontent.com/64495168/129825475-1d74099c-8180-4202-a427-a153ea28a611.png)
-
+![app](/img/app.png)
 
 A demonstration of the app: <br>
 
-![rossmann](https://user-images.githubusercontent.com/64495168/129827366-922ee3ee-f9e7-422a-8375-954cc867ab04.gif)
-
-chatbot id: @rossmann_rnf_bot
+![rossmann](/img/rossmann.gif) <br />
+<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp chatbot id: @rossmann_rnf_bot  </p>
+     
 
 
 
