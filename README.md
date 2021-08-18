@@ -10,19 +10,19 @@ This project was inspired by the "Rossmann Store Sales" challenge published on k
 The sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe.
 
 ## Solution methodology
-The resolution of the challenge was carried out following the CRISP (Cross-industry standard process for data mining) methodology, which is a cyclical approach that streamlines the delivery of value.
+The resolution of the challenge was carried out following the CRISP (CRoss-Industry Standard Process for data mining) methodology, which is a cyclical approach that streamlines the delivery of value.
 
 ![crisp_cycle](https://user-images.githubusercontent.com/64495168/129498233-5b3c6cb0-39ce-4187-a96a-c298c7edc95b.png)
 
 ## Data collection and understanding
 
 The first step was to collect (from kaggle) and understand the data; soon after, the cleaning of the database and treatment of missing values took place. <br>
-There are 1017209 sales records for 1115 different stores, containing different attributes such as: "store_type", "customers", "assortment", "school_holiday", "open", "promo2", among others. The explanation of each of the attributes is available on the notebook. <br>
+There are 1017209 sales records for 1115 different stores, containing different attributes such as: "date", "store_type", "customers", "assortment", "school_holiday", "open", "promo2", "sales", among others. The explanation of each of the attributes is available on the notebook. <br>
 To complete the data understanding step, features that will not be available at the time of the forecast were removed, such as the number of customers, which will only be known on the day of sales and, therefore, it would be impractical to train the model with such variable.
 
 ## Exploratory data analysis guided by a mind map of hypotheses 
 
-The next step was to perform exploratory data analysis (EDA). But right before that, a mind map of hypotheses was made in order to guide EDA, generate insights and understand a little more about the database and the most important attributes. 
+The next step was to perform exploratory data analysis (EDA). But right before that, a mind map of hypotheses was made in order to guide the EDA, to generate insights and to understand a little more about the database and the most important attributes. 
 
 ![MindMapHypothesis](https://user-images.githubusercontent.com/64495168/129498190-589e0307-4c29-4dd6-b966-52e2b8f8b874.png)
 
@@ -42,7 +42,7 @@ With the feature diagram above, several hypotheses were generated; the ones that
 12. Stores should sell less during school holidays
 13. Stores that open on Sundays should sell more
 
-The discussion of each hypothesis to validate or refute it is found in the notebook file.
+The discussion of each hypothesis to validate or refute it is found in the notebook file. <br>
 Below are the summary of the analysis of hypotheses 1, 10 and 13:
 
 ### 1. Stores with a larger assortment should sell more: **true**
@@ -59,7 +59,7 @@ After analyzing the composition of the 4 graphs related to this hypothesis, it i
 
 ![h10](https://user-images.githubusercontent.com/64495168/129499532-abffc7db-1f3f-455a-974f-8d2ea11dbefc.png)
 
-The confusion matrix reveals a tendency for the number of the day to be inversely correlated with the sales result.
+The confusion matrix reveals a slight trend for the number of the day to be inversely correlated with the sales result.
 
 ### 13. Stores that open on Sundays should sell more: **true**
 
@@ -67,8 +67,9 @@ After identifying the different stores that open on Sundays (which most stores r
 
 ![h13](https://user-images.githubusercontent.com/64495168/129499835-85cefe88-7648-45c1-94b7-593717869ffa.png)
 
-Perhaps this analysis is an insight and investigation is recommended if such superior performance is due to the location of the store or if the fact that they are open on Sundays makes them gain extra confidence in availability, which makes customers look for such stores regardless of the day of the week.
-It may be for yet another factor to be identified.
+Perhaps this analysis is an insight and investigation of such superior performance is recommended. <br>
+One possible reason could be the store's location (which makes sense to open it on Sundays); another reason may be that such stores that do not close on any day of the week result in increased confidence by customers in "finding the doors open" and therefore looking for such stores regardless of the day of the week. <br>
+Of course, it could still be another factor or combination of them.
 
 ## Data preparation (standardization and feature selection)
 
@@ -78,7 +79,8 @@ As a highlight, there is the transformation of cyclical data (such as day and we
 ![sin_cos](https://user-images.githubusercontent.com/64495168/129500567-88f18fe1-d361-4c8d-b070-229b10848abd.png)
 
 The next step was to identify the most relevant features for training machine learning models.
-For this, in addition to the knowledge acquired during EDA, the Python implementations of the Boruta R package (https://github.com/scikit-learn-contrib/boruta_py) was used.
+For this, in addition to the knowledge acquired during EDA, the Python implementations of the Boruta R package (https://github.com/scikit-learn-contrib/boruta_py) was used. <br>
+The features chosen by Boruta are described in the notebook.
 
 ## Machine learning modeling
 
@@ -86,7 +88,8 @@ Four different models (linear regression, regularized linear regression - lasso,
 
 ![ts_cross_validation](https://user-images.githubusercontent.com/64495168/129501073-58f20c0c-543d-4d0f-899b-10da4eac3011.png)
 
-It started with a reduced training set and the model training was performed but before separating the last 6-week slice for testing; then, the performance of this model was calculated. And then new iterations were performed, each time increasing the training dataset but before always separating the last 6 weeks for the test. <br>
+It started with a reduced portion of the training database, whose last 6 weeks were separated for validation; then, the model was trained and its performance was calculated. <br>
+New iterations were performed, each time increasing the training dataset and always separating the last 6 weeks for the test. <br>
 The cross-validation performance was the average of each of these iterations.
 
 The results in terms of Mean Absolute Error (MAE), Mean absolute percentage error (MAPE) and Root Mean Square Error (RMSE) were:
@@ -98,12 +101,11 @@ The results in terms of Mean Absolute Error (MAE), Mean absolute percentage erro
 |Linear regression            |2081.69 +/- 295.28|0.3 +/- 0.02 |2952.57 +/- 468.48|
 |Regularized linear regression|2116.43 +/- 341.25|0.29 +/- 0.01|3057.75 +/- 503.93|
 	
-Although the random forest model was the best, the model chosen to go ahead with the tuning of the hyperparameters was XGBoost. The reason for this is that it is a much lighter model to operate in production and does not have a significant difference in performance. The operability in production is an extremely important requirement in this project.
+Although the random forest model was the best, the model chosen to go ahead with the tuning of the hyperparameters was XGBoost. The reason for this is that it is a much lighter model to operate in production and does not have a significant difference in performance; the operability in production is an extremely important requirement in this project.
 
 ## Hyperparameter tuning
 Using the random search precedure,  with different values for the parameters "n_estimators", "eta", "max_depth", "subsample", "colsample_bytree" and "min_child_weight", 25 different iterations of XGBoost were performed, all evaluated using cross-validation. 
-The values of MAE, MAPE and RMSE are detailed in the notebook for all the iterations. <br><br>
-The best model considering not only the performance but also its size  
+The values of MAE, MAPE and RMSE are detailed in the notebook for all the iterations. <br>
 The performance of the chosen model, considering performance and size(keeping in mind the operability in production), was:
 
 |Model|MAE|MAPE|RMSE|
@@ -131,7 +133,7 @@ XGBoost regressor|803.56|0.12|1176.21|
 ## Business performance
 
 Finally, with the model trained, it's time to translate model performance into business performance.
-Considering the MAE obtained in the forecast for each store, during the test period, the best and worst sales scenarios for each store are projected.
+Considering the MAE obtained in the forecast for each store, during the test period, the best and worst sales scenarios for each store were projected.
 
 Below, the expected business performance of the first 5 stores:
 
