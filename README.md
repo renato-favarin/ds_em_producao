@@ -3,8 +3,8 @@
 
 # Rossmann stores - 6 weeks sales forecast
 
-
-This project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales).
+Disclaimer: this project was inspired by the "Rossmann Store Sales" challenge published on kaggle (https://www.kaggle.com/c/rossmann-store-sales).<br>
+It is a fictitious project but with all the steps of a real project.
 
 ## Business scenario
 The sales director of the Rossmann stores wants to estimate the sales forecast for the next 6 weeks on its different units spread across Europe.
